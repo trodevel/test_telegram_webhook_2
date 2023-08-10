@@ -38,11 +38,9 @@ import os
 import telegram
 import ssl
 import config
+from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
-
-context = ssl.SSLContext()
-context.load_cert_chain( config.CERTIFICATE_PATH, config.PRIVATE_KEY_PATH )
 
 application = ApplicationBuilder().token(config.TOKEN).build()
 
@@ -63,4 +61,10 @@ async def webhook():
         return ( 'Bad request', 400 )
 
 if __name__ == '__main__':
-    app.run( debug=True, host=config.LISTEN_IP, port=config.PORT, ssl_context=context )
+    if config.IS_PROD:
+        http_server = WSGIServer(('', config.PORT), app, keyfile=config.PRIVATE_KEY_PATH, certfile=config.CERTIFICATE_PATH )
+        http_server.serve_forever()
+    else:
+        context = ssl.SSLContext()
+        context.load_cert_chain( config.CERTIFICATE_PATH, config.PRIVATE_KEY_PATH )
+        app.run( debug=True, host=config.LISTEN_IP, port=config.PORT, ssl_context=context )
