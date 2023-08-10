@@ -43,7 +43,7 @@ import config
 app = Flask(__name__)
 
 context = ssl.SSLContext()
-context.load_cert_chain('YOURPUBLIC.pem', 'YOURPRIVATE.key')
+context.load_cert_chain( config.CERTIFICATE_PATH, config.PRIVATE_KEY_PATH )
 
 application = ApplicationBuilder().token(config.TOKEN).build()
 
