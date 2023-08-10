@@ -47,21 +47,21 @@ context.load_cert_chain( config.CERTIFICATE_PATH, config.PRIVATE_KEY_PATH )
 
 application = ApplicationBuilder().token(config.TOKEN).build()
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(update.message.text)
+async def handle_echo( update: Update, context: ContextTypes.DEFAULT_TYPE ) -> None:
+    await update.message.reply_text( update.message.text )
 
-echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
-application.add_handler(echo_handler)
+echo_handler = MessageHandler( filters.TEXT & (~filters.COMMAND), handle_echo )
+application.add_handler( echo_handler )
 
 @app.route('/', methods=['POST'])
 async def webhook():
     if request.headers.get('content-type') == 'application/json':
         async with application:
-            update = Update.de_json(request.get_json(force=True),application.bot)
-            await application.process_update(update)
-            return ('', 204)
+            update = Update.de_json( request.get_json( force = True ),application.bot )
+            await application.process_update( update )
+            return ( '', 204 )
     else:
-        return ('Bad request', 400)
+        return ( 'Bad request', 400 )
 
 if __name__ == '__main__':
-    app.run(debug=True, host=config.LISTEN_IP, port=config.PORT, ssl_context=context)
+    app.run( debug=True, host=config.LISTEN_IP, port=config.PORT, ssl_context=context )
