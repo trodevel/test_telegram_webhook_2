@@ -4,3 +4,4 @@ PRIVATE_KEY_PATH = "YOURPRIVATE.key"
 LISTEN_IP="0.0.0.0"
 PORT=8443
 HOST="yourdomain.com"
+IS_PROD=False
