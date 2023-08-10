@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from telegram import Update
-#from telegram.ext import (ApplicationBuilder, ContextTypes, CommandHandler,MessageHandler, filters)
 
 from telegram.ext import (
     Application,
