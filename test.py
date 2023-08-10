@@ -64,4 +64,4 @@ async def webhook():
         return ('Bad request', 400)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=config.PORT, ssl_context=context)
+    app.run(debug=True, host=config.LISTEN_IP, port=config.PORT, ssl_context=context)
